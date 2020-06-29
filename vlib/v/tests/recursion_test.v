@@ -54,7 +54,7 @@ fn test_fib_recursive_memoized_external_cache() {
 }
 
 
-// calculate fibonacci number in a recursive way
+// calculate fibonacci number, in a recursive way
 // but with memoization (caching of previous values), 
 // so faster than typical recursive only approach but more momory consuming
 // note that cache here is passed as a mutable argument ...
@@ -62,18 +62,18 @@ fn fib_recursive_memoized(n int, mut cache []u64) u64 {
 	if n < 1 {
 		return 0
 	} else if n == 1 {
-		cache.nums[n] = n
+		cache[n] = u64(n)
 	}
-	if cache.nums[n] != 0 {
-		return cache.nums[n]
+	if cache[n] != 0 {
+		return cache[n]
 	}
-	cache.nums[n] = fib_recursive_memoized(n - 1, cache) + fib_recursive_memoized(n - 2, cache)
-	return cache.nums[n]
+	cache[n] = fib_recursive_memoized(n - 1, mut cache) + fib_recursive_memoized(n - 2, mut cache)
+	return cache[n]
 }
 
 fn test_fib_recursive_memoized() {
 	println(@FN + ' ' + 'Test fibonacci recursive with a given cache of mutable values...')
 	mut cache := [u64(0)].repeat(num + 1)
-	result := fib_recursive_memoized(num, cache)
+	result := fib_recursive_memoized(num, mut cache)
 	assert result == fib_for_num
 }
